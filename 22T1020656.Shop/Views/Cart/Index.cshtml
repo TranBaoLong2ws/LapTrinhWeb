@@ -11,6 +11,14 @@
     <div class="container">
         <h3 class="mb-4 fw-bold">Giỏ hàng của bạn</h3>
 
+        @* Kiểm tra: Nếu Model có dữ liệu thì mới hiện nút *@
+        @if (Model != null && Model.Any())
+        {
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="clearAllCart()">
+                <i class="fas fa-trash-alt me-2"></i>Xóa sạch giỏ hàng
+            </button>
+        }
+
         <form action="@Url.Action("InitOrder", "Cart")" method="post">
             @Html.AntiForgeryToken()
 
@@ -178,6 +186,24 @@
                     data: { id: id },
                     success: function() {
                         location.reload();
+                    }
+                });
+            }
+        }
+
+                function clearAllCart() {
+            if (confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?")) {
+                $.ajax({
+                    url: '@Url.Action("ClearAll", "Cart")',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            // Load lại trang để hiển thị trạng thái trống
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
                     }
                 });
             }

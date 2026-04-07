@@ -208,6 +208,17 @@ namespace SV22T1020656.Shop.Controllers
             return View(order); // Truyền Model là Order vào View
         }
 
+        public IActionResult ClearAll()
+        {
+            // Sử dụng hàm ClearCart bạn đã viết sẵn ở trên
+            ClearCart();
 
+            // Nếu gọi bằng AJAX thì trả về Json, nếu gọi trực tiếp thì Redirect
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new { success = true, message = "Đã xóa toàn bộ giỏ hàng" });
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
