@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SV22T1020656.Models.Cart.cartItem>
+@{
+    ViewData["Title"] = "Xác nhận đơn hàng";
+}
+
+<div class="container py-5">
+    <form action="@Url.Action("InitOrder", "Cart")" method="post">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card shadow-sm p-4">
+                    <h5 class="fw-bold mb-4">Thông tin giao hàng</h5>
+                    <div class="mb-3">
+                        <label>Tỉnh/Thành</label>
+                        <select name="deliveryProvince" class="form-select" required>
+                            @foreach (var p in ViewBag.Provinces)
+                            {
+                                <option value="@p.ProvinceName">@p.ProvinceName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Địa chỉ nhận hàng</label>
+                        <input type="text" name="deliveryAddress" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Ghi chú</label>
+                        <textarea name="note" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card shadow-sm p-4 bg-light">
+                    <h5 class="fw-bold">Tóm tắt đơn hàng</h5>
+                    <hr>
+                    @foreach (var item in Model)
+                    {
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>@item.ProductName x @item.Quantity</span>
+                            <span>@item.TotalPrice.ToString("N0") đ</span>
+                        </div>
+                    }
+                    <hr>
+                    <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold">XÁC NHẬN ĐẶT HÀNG</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

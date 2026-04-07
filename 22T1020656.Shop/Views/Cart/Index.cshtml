@@ -1,0 +1,186 @@
+﻿@model IEnumerable<SV22T1020656.Models.Cart.cartItem>
+@using SV22T1020656.Models.Sales
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    decimal subtotal = Model.Sum(x => x.TotalPrice);
+    decimal shipping = subtotal > 0 ? 20000 : 0;
+    decimal total = subtotal + shipping;
+}
+
+<section class="h-100 py-5 bg-light">
+    <div class="container">
+        <h3 class="mb-4 fw-bold">Giỏ hàng của bạn</h3>
+
+        <form action="@Url.Action("InitOrder", "Cart")" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive shadow-sm bg-white rounded-3 p-3 mb-4">
+                        <table class="table align-middle border-0">
+                            <thead class="text-muted small text-uppercase">
+                                <tr>
+                                    <th scope="col" style="width: 40%;">Sản phẩm</th>
+                                    <th scope="col" class="text-center">Đơn vị</th>
+                                    <th scope="col" class="text-center">Số lượng</th>
+                                    <th scope="col" class="text-end">Giá</th>
+                                    <th scope="col" class="text-end">Thành tiền</th>
+                                    <th scope="col" class="text-end">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr class="border-bottom">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="@(string.IsNullOrEmpty(item.Photo) ? "https://picsum.photos/100" : "/images/products/" + item.Photo)"
+                                                         class="rounded shadow-sm" style="width: 70px; height: 70px; object-fit: cover;" alt="@item.ProductName">
+                                                    <div class="ms-3">
+                                                        <p class="mb-0 fw-bold text-dark">@item.ProductName</p>
+                                                        <p class="mb-0 small text-muted">Mã SP: @item.ProductID</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center text-muted">@item.Unit</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary border-0 px-2" onclick="updateQuantity(@item.ProductID, -1)">
+                                                        <i class="fas fa-minus small"></i>
+                                                    </button>
+                                                    <input type="text" value="@item.Quantity" class="form-control form-control-sm text-center mx-1 bg-white"
+                                                           style="width: 40px; border-radius: 5px;" readonly />
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary border-0 px-2" onclick="updateQuantity(@item.ProductID, 1)">
+                                                        <i class="fas fa-plus small"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td class="text-end text-muted">@item.Price.ToString("N0") đ</td>
+                                            <td class="text-end fw-bold text-primary">@item.TotalPrice.ToString("N0") đ</td>
+                                            <td class="text-center text-danger" style="cursor: pointer;" onclick="removeFromCart(@item.ProductID)">
+                                                <img src="~/icon/delete.png" width="20" height="20"/>
+                                                <i class="fas fa-trash"></i>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <p class="text-muted">Giỏ hàng của bạn đang trống</p>
+                                            <a href="~/Home/Index" class="btn btn-primary px-4 rounded-pill mt-2">Mua sắm ngay</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 20px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-4 p-4 border-end bg-white">
+                                    @* <h6 class="fw-bold mb-3"><i class="fas fa-truck me-2"></i>Thông tin giao hàng</h6>
+
+                                    <div class="mb-3">
+                                        <label class="small fw-bold">Tỉnh/Thành:</label>
+                                        <select name="deliveryProvince" class="form-select border-0 bg-light" required>
+                                            <option value="">-- Chọn Tỉnh/Thành --</option>
+                                            @foreach (var p in ViewBag.Provinces as List<SV22T1020656.Models.DataDictionary.Province>)
+                                            {
+                                                <option value="@p.ProvinceName">@p.ProvinceName</option>
+                                            }
+                                        </select>
+                                    </div> *@
+
+                                    @* <div class="mb-3">
+                                        <label class="small fw-bold">Địa chỉ cụ thể:</label>
+                                        <input type="text" name="deliveryAddress" class="form-control border-0 bg-light"
+                                               placeholder="Số nhà, tên đường..." required />
+                                    </div> *@
+
+                                    @* <h6 class="fw-bold mt-4 mb-3"><i class="fas fa-credit-card me-2"></i>Thanh toán</h6>
+                                    <div class="form-check border rounded p-3 mb-2 shadow-xs">
+                                        <input class="form-check-input ms-0" type="radio" name="payment" id="p1" checked>
+                                        <label class="form-check-label ms-4 fw-medium" for="p1">Thanh toán COD</label>
+                                    </div> *@
+                                </div>
+
+                                @* <div class="col-lg-4 p-4 border-end bg-light bg-opacity-50">
+                                    <h6 class="fw-bold mb-4"><i class="fas fa-pen me-2"></i>Ghi chú đơn hàng</h6>
+                                    <textarea name="note" class="form-control border-0 bg-white shadow-sm" rows="5"
+                                              style="border-radius: 12px;" placeholder="Lưu ý về giờ giao hàng, chỉ dẫn đường đi..."></textarea>
+                                </div> *@
+
+                                <div class="col-lg-4 p-4 bg-white">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Tạm tính</span>
+                                        <span class="fw-bold">@subtotal.ToString("N0") đ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <span class="text-muted">Phí vận chuyển</span>
+                                        <span class="fw-bold text-success">+@shipping.ToString("N0") đ</span>
+                                    </div>
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <span class="h5 mb-0 fw-bold">Tổng cộng</span>
+                                        <span class="h4 mb-0 fw-bold text-danger">@total.ToString("N0") đ</span>
+                                    </div>
+
+                                    @if (Model.Any())
+                                    {
+                                        <a href="@Url.Action("CheckOut", "Cart")" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-lg"
+                                           style="border-radius: 12px; background: linear-gradient(45deg, #0d6efd, #004dc5); border:none; text-decoration:none;">
+                                            <div class="d-flex justify-content-between px-4">
+                                                <span>TIẾN HÀNH THANH TOÁN</span>
+                                                <i class="fas fa-arrow-right mt-1"></i>
+                                            </div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" disabled class="btn btn-secondary btn-lg w-100 py-3 fw-bold shadow-lg" style="border-radius: 12px;">
+                                            GIỎ HÀNG TRỐNG
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Giữ nguyên các hàm AJAX của bạn, nhưng đảm bảo nút cộng/trừ là type="button" để không bị submit form
+        function updateQuantity(id, delta) {
+            $.ajax({
+                url: '@Url.Action("addToCart", "Cart")',
+                type: 'GET',
+                data: { id: id, quantity: delta },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+
+        function removeFromCart(id) {
+            if(confirm("Xác nhận xóa sản phẩm?")) {
+                $.ajax({
+                    url: '@Url.Action("RemoveFromCart", "Cart")',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+}

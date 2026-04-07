@@ -1,0 +1,60 @@
+﻿@model Employee
+@{
+    ViewBag.Title = "Thêm nhân viên";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4 text-center">Thêm nhân viên</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-action="SaveData" asp-controller="Employee">
+                @Html.AntiForgeryToken()
+             
+
+                <!-- Họ tên -->
+                <div class="mb-3">
+                    <label class="form-label">Họ và tên</label>
+                    <input asp-for ="FullName" class="form-control"/>
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <!-- Địa chỉ -->
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <textarea asp-for="Address" class="form-control" ></textarea>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Upload ảnh -->
+                <div class="mb-3">
+                    <label class="form-label">Ảnh</label>
+                    <input type="file" name="uploadPhoto" class="form-control" />
+                </div>
+
+                <!-- Nút -->
+                <div class="d-flex justify-content-between">
+                    <button type="reset" class="btn btn-secondary">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Thêm nhân viên
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

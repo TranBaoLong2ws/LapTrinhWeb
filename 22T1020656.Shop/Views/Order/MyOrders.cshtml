@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SV22T1020656.Models.Sales.OrderViewInfo>
+@using SV22T1020656.Models.Sales
+@{
+    ViewData["Title"] = "Lịch sử mua hàng";
+}
+
+
+<div class="container mt-5" style="padding-top: 100px;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold m-0"><i class="fas fa-history me-2 text-primary"></i>Lịch sử mua hàng</h3>
+            <a href="~/Home/Index" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                <i class="fas fa-shopping-cart me-1"></i> Tiếp tục mua sắm
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th class="ps-4 py-3">Mã đơn</th>
+                            <th>Ngày đặt</th>
+                            <th>Địa chỉ giao hàng</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th class="text-end pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model.OrderByDescending(x => x.OrderTime))
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-bold text-primary">#@item.OrderID</td>
+                                    <td class="small">@item.OrderTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="small text-truncate" style="max-width: 250px;">
+                                        @item.DeliveryAddress, @item.DeliveryProvince
+                                    </td>
+                                    <td class="text-center">
+                                        @switch ((OrderStatusEnum)item.Status)
+                                        {
+                                            case OrderStatusEnum.New:
+                                                <span class="badge rounded-pill bg-info text-dark px-3">Chờ duyệt</span>
+                                                break;
+                                            case OrderStatusEnum.Accepted:
+                                                <span class="badge rounded-pill bg-primary px-3">Đã xác nhận</span>
+                                                break;
+                                            case OrderStatusEnum.Shipping:
+                                                <span class="badge rounded-pill bg-warning text-dark px-3">Đang giao</span>
+                                                break;
+                                            case OrderStatusEnum.Completed:
+                                                <span class="badge rounded-pill bg-success px-3">Thành công</span>
+                                                break;
+                                            case OrderStatusEnum.Cancelled:
+                                                <span class="badge rounded-pill bg-secondary px-3">Đã hủy</span>
+                                                break;
+                                            case OrderStatusEnum.Rejected:
+                                                <span class="badge rounded-pill bg-danger px-3">Bị từ chối</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        @* Nút dẫn về Mục 9 để xem chi tiết và tiến trình *@
+                                        <a href="@Url.Action("Success", "Cart", new { id = item.OrderID })" 
+                                           class="btn btn-light btn-sm rounded-pill border shadow-sm px-3">
+                                            <i class="fas fa-eye me-1"></i> Chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" style="width: 80px; opacity: 0.5;" class="mb-3">
+                                    <p class="text-muted">Bạn chưa có đơn hàng nào.</p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

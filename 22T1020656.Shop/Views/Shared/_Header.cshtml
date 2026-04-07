@@ -1,0 +1,109 @@
+﻿@* Không cần taglib *@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold" href="@Url.Action("Index", "Home")">
+            <img src="~/icon/logoshop.png" width="100" height="100" class="me-2">
+            Shop
+        </a>
+
+        <!-- Button mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                @* <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
+                        Category
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=1">May mặc</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=2">Mỹ phẩm</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=3">Điện tử</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=4">Hàng gia dụng</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=5">Mẹ và Em bé</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=6">Xe máy</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=7">Oto</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=9">Đồ chơi - phụ kiện</a></li>
+                        <li><a class="dropdown-item" href="/Product/Index?CategoryID=10">Bàn ghế - nội thất (loại 1)</a></li>
+                    </ul>
+                </li> *@
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    var displayName = User.Claims.FirstOrDefault(c => c.Type == "DisplayName")?.Value;
+                    var photo = User.Claims.FirstOrDefault(c => c.Type == "Photo")?.Value;
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="~/icon/admin.png"
+                                 onerror="this.src='/icon/default-user.png'"
+                                 width="30" height="30"
+                                 class="rounded-circle me-2" alt="Avatar">
+                            <span>@displayName</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px; min-width: 200px;">
+                            <li class="px-3 py-2 fw-bold text-muted small text-uppercase">Tài khoản cá nhân</li>
+
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("Profile", "Account")">
+                                    <i class="fas fa-user-circle me-2 text-primary"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("MyOrders", "Order")">
+                                    <i class="fas fa-box me-2 text-success"></i>Đơn hàng của tôi
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("ChangePassword", "Account")">
+                                    <i class="fas fa-key me-2 text-warning"></i>Đổi mật khẩu
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item py-2 text-danger fw-bold" href="@Url.Action("Logout", "Account")">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                } else {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
+                </li>
+                }
+
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="@Url.Action("Index", "Cart")">
+                        <img src="~/icon/cart.png" width="35" height="35">
+                        <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            @{
+                                var cart = SV22T1020656.Shop.ApplicationContext.GetSessionData<List<SV22T1020656.Models.Cart.cartItem>>("ShoppingCart");
+                                int count = cart?.Sum(x => x.Quantity) ?? 0;
+                            }
+                            @count
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+
+         

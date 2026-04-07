@@ -1,0 +1,72 @@
+﻿@model SV22T1020656.Models.Partner.Customer
+
+@{
+    ViewBag.Title = "Thêm khách hàng";
+}
+
+<div class="container mt-4" style="max-width:700px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Bổ sung khách hàng</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" action="~/Customer/SaveData">
+
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Tên khách hàng *</label>
+                    <input asp-for="CustomerName" class="form-control" />
+                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tên giao dịch</label>
+                    <input asp-for="ContactName" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tỉnh / Thành</label>
+                    <input asp-for="Province" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Điện thoại</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email *</label>
+                    <input asp-for="Email" class="form-control" type="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="IsLocked" class="form-check-input" />
+                    <label class="form-check-label">
+                        Khóa khách hàng
+                    </label>
+                </div>
+
+                <div class="text-end">
+                    <a href="~/Customer" class="btn btn-secondary me-2">
+                        Quay lại
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        Lưu dữ liệu
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

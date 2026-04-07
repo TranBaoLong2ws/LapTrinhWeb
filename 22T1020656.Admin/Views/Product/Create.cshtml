@@ -1,0 +1,114 @@
+﻿@model Product
+@{
+    ViewBag.Title = "Thêm mặt hàng";
+}
+
+<div class="container-fluid pt-3">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-pencil-square me-2"></i>Thêm thông tin mặt hàng</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="SaveData" asp-controller="Product">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="ProductID" value="1" />
+
+                <div class="row">
+                    <div class="col-md-8 border-end">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Tên mặt hàng:</label>
+                            <input asp-for="ProductName" class="form-control" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Mô tả tóm tắt:</label>
+                            <textarea asp-for="ProductDescription" class="form-control"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold small">Đơn vị tính:</label>
+                                <input asp-for="Unit" class="form-control" placeholder="Ví dụ: Thùng, Cái, Hộp..." />
+                                <span asp-validation-for="Unit" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold small">Giá gốc:</label>
+                                <input asp-for="Price" class="form-control" placeholder="" />
+                                <span asp-validation-for="Unit" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold small">Giá bán:</label>
+                                <input asp-for="Price"
+                                       type="number"
+                                       class="form-control text-end fw-bold text-danger"
+                                       placeholder="Nhập giá bán..." />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Ghi chú chi tiết:</label>
+                            <textarea asp-for="ProductDescription" class="form-control"></textarea>textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 ps-md-4">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small">Ảnh đại diện mặt hàng:</label>
+                            <div class="text-center border rounded p-3 mb-2 bg-light">
+                                <img id="previewImage" src="https://via.placeholder.com/150" class="img-fluid rounded mb-2" style="max-height: 150px;" />
+                                <input type="file" name="PhotoUpload" class="form-control form-control-sm" onchange="document.getElementById('previewImage').src = window.URL.createObjectURL(this.files[0])">
+                            </div>
+                            <small class="text-muted italic">Chọn file để thay đổi ảnh hiện tại.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Loại hàng:</label>
+                            <select name="CategoryID" class="form-select">
+                                <option value="1" selected>Sữa & Sản phẩm sữa</option>
+                                <option value="2">Thực phẩm đóng gói</option>
+                                <option value="3">Đồ uống</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Nhà cung cấp:</label>
+                            <select name="SupplierID" class="form-select">
+                                <option value="1" selected>Vinamilk</option>
+                                <option value="2">Acecook Việt Nam</option>
+                                <option value="3">Trung Nguyên</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Lưu dữ liệu
+                    </button>
+                    <a href="~/Product/Detail/1" class="btn btn-outline-secondary">
+                        Hủy bỏ
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-label {
+        color: #444;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+    }
+</style>

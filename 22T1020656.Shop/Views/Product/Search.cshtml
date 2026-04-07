@@ -1,0 +1,49 @@
+﻿@model PagedResult<Product>
+
+<div class="row">
+    @foreach (var item in Model.DataItems)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm border-0 product-card">
+                <img src="~/icon/demo.png"
+                     class="card-img-top" alt="@item.ProductName">
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="fw-bold">@item.ProductName </h6>
+                    <p class="text-danger fw-bold mb-2">@item.Price.ToString("N0") đ</p>
+                    <div class="mt-auto d-flex gap-2">
+                        <a href="~/Product/Detail/@item.ProductID" class="btn btn-sm btn-outline-primary w-50">Xem</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-sm btn-danger w-50" onclick="addToCart(@item.ProductID)">
+                                <i class="bi bi-cart"></i> + Giỏ
+                            </button>
+                        }
+                        else
+                        {
+                            <a href="~/Account/Login" class="btn btn-sm btn-secondary w-50" title="Đăng nhập để mua hàng">
+                                <i class="bi bi-lock"></i> + Giỏ
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-between align-items-center">
+    <div>Trang @Model.Page / @Model.PageCount</div>
+    <ul class="pagination mb-0">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(i == Model.Page ? "active" : "")">
+                <a class="page-link"
+                   href="javascript:;"
+                   onclick="paginationSearch(event, document.getElementById('formSearch'), @i)">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</div>

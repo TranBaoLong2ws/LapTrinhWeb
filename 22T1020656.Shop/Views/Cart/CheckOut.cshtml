@@ -1,0 +1,127 @@
+﻿@model IEnumerable<SV22T1020656.Models.Cart.cartItem>
+@{
+    ViewData["Title"] = "Thanh toán đơn hàng";
+    decimal subtotal = Model.Sum(x => x.TotalPrice);
+    decimal shipping = 20000; // Phí ship cố định hoặc tính toán tùy ý
+    decimal total = subtotal + shipping;
+}
+
+<section class="py-5 bg-light">
+    <div class="container" style="padding-top: 100px;">
+        <div class="row">
+            <div class="col-lg-12 mb-4">
+                <h3 class="fw-bold"><i class="fas fa-check-circle text-primary me-2"></i>Xác nhận đơn hàng</h3>
+                <p class="text-muted">Vui lòng kiểm tra lại thông tin và địa chỉ giao hàng.</p>
+            </div>
+
+            <div class="col-lg-8">
+                <form id="formCheckout" action="@Url.Action("InitOrder", "Cart")" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">1. Địa chỉ nhận hàng</h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label small fw-bold">Tỉnh/Thành phố <span class="text-danger">*</span></label>
+                                    <select name="deliveryProvince" class="form-select border-0 bg-light" required>
+                                        <option value="">-- Chọn Tỉnh/Thành --</option>
+                                        @foreach (var p in ViewBag.Provinces)
+                                        {
+                                            <option value="@p.ProvinceName">@p.ProvinceName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label small fw-bold">Địa chỉ chi tiết (Số nhà, đường...) <span class="text-danger">*</span></label>
+                                    <input type="text" name="deliveryAddress" class="form-control border-0 bg-light"
+                                           placeholder="Ví dụ: 123 Nguyễn Huệ, Phường 1" required />
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label small fw-bold">Ghi chú cho đơn hàng</label>
+                                    <textarea name="note" class="form-control border-0 bg-light" rows="3"
+                                              placeholder="Ghi chú về giờ giao hàng hoặc chỉ dẫn..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">2. Phương thức thanh toán</h5>
+                            <div class="form-check p-3 border rounded mb-2 bg-white shadow-xs">
+                                <input class="form-check-input ms-0" type="radio" name="paymentMethod" id="cod" checked>
+                                <label class="form-check-label ms-4 fw-medium" for="cod">Thanh toán khi nhận hàng (COD)</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top" style="border-radius: 15px; top: 20px;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Tóm tắt đơn hàng</h5>
+
+                        <div class="order-items mb-4" style="max-height: 300px; overflow-y: auto;">
+                            @foreach (var item in Model)
+                            {
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="/images/products/@(string.IsNullOrEmpty(item.Photo) ? "no-image.png" : item.Photo)"
+                                         class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="ms-3 flex-grow-1">
+                                        <p class="mb-0 small fw-bold text-dark text-truncate" style="max-width: 150px;">@item.ProductName</p>
+                                        <p class="mb-0 small text-muted">SL: @item.Quantity</p>
+                                    </div>
+                                    <span class="small fw-bold">@item.TotalPrice.ToString("N0") đ</span>
+                                </div>
+                            }
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="d-flex justify-content-between mb-2 text-muted">
+                            <span>Tạm tính:</span>
+                            <span>@subtotal.ToString("N0") đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Phí vận chuyển:</span>
+                            <span>+@shipping.ToString("N0") đ</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <span class="h5 mb-0 fw-bold">Tổng thanh toán:</span>
+                            <span class="h4 mb-0 fw-bold text-danger">@total.ToString("N0") đ</span>
+                        </div>
+
+                        <button type="button" onclick="submitOrder()" class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow"
+                                style="border-radius: 12px; background: linear-gradient(45deg, #ff416c, #ff4b2b); border: none;">
+                            XÁC NHẬN ĐẶT HÀNG
+                        </button>
+
+                        <a href="@Url.Action("Index", "Cart")" class="btn btn-link w-100 text-muted mt-2 text-decoration-none small">
+                            <i class="fas fa-chevron-left me-1"></i> Quay lại giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function submitOrder() {
+            // Kiểm tra form hợp lệ trước khi gửi
+            const form = document.getElementById('formCheckout');
+            if (form.checkValidity()) {
+                if (confirm("Bạn có chắc chắn muốn đặt đơn hàng này?")) {
+                    form.submit();
+                }
+            } else {
+                form.reportValidity(); // Hiển thị lỗi nếu thiếu thông tin
+            }
+        }
+    </script>
+}

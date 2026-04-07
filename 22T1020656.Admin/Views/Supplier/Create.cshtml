@@ -1,0 +1,65 @@
+﻿@model Supplier
+
+@{
+    ViewData["Title"] = "Thêm Nhà Cung Cấp";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4 text-center">Thêm nhà cung cấp</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-action="SaveData" asp-controller="Supplier">
+                @Html.AntiForgeryToken()
+
+
+                <!-- Họ tên -->
+                <div class="mb-3">
+                    <label class="form-label">Tên nhà cung cấp</label>
+                    <input asp-for="SupplierName" class="form-control" />
+                    <span asp-validation-for="SupplierName" class="text-danger"></span>
+                </div>
+
+                <!-- Địa chỉ -->
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <textarea asp-for="Address" class="form-control"></textarea>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Người liên hệ -->
+                <div class="mb-3">
+                    <label class="form-label">Người liên hệ</label>
+                    <input asp-for="ContactName" class="form-control" />
+                </div>
+
+                <!-- Tỉnh/Thành -->
+                <div class="mb-3">
+                    <label class="form-label">Tỉnh/Thành</label>
+                    <input asp-for="Province" class="form-control" />
+                </div>
+       
+                <!-- Nút -->
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+                    <button type="submit" class="btn btn-primary">
+                        Thêm nhà cung cấp 
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

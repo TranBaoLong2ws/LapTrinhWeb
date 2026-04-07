@@ -1,0 +1,100 @@
+﻿@model SV22T1020656.Models.Partner.Customer
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+
+<div class="container mt-5" style="padding-top: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white border-bottom py-3">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 bg-primary text-white rounded-circle p-2 px-3 me-3">
+                            <i class="bi bi-person-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Hồ Sơ Của Tôi</h5>
+                            <small class="text-muted">Quản lý và cập nhật thông tin cá nhân của bạn</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                            <div asp-validation-summary="All" class="small"></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="UpdateProfile" asp-controller="Account" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="CustomerID" />
+                        <input type="hidden" asp-for="Email" /> <div class="row g-4">
+                            <div class="col-md-4 text-center border-end">
+                                <div class="position-relative d-inline-block mb-3">
+                                    <img src="https://ui-avatars.com/api/?name=@(Model.CustomerName)&background=random&size=150"
+                                         class="rounded-circle img-thumbnail shadow-sm" alt="Avatar">
+                                    <span class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2 border border-white" style="cursor:pointer">
+                                        <i class="bi bi-camera-fill"></i>
+                                    </span>
+                                </div>
+                                <h6 class="fw-bold mb-1">@Model.CustomerName</h6>
+                                <p class="text-muted small">@Model.Email</p>
+                                <hr class="mx-4">
+                                <p class="text-start small text-muted px-3">
+                                    <i class="bi bi-info-circle me-1"></i> Email không thể thay đổi vì là định danh duy nhất của tài khoản.
+                                </p>
+                            </div>
+
+                            <div class="col-md-8 px-md-4">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label fw-semibold">Tên khách hàng</label>
+                                        <input type="text" asp-for="CustomerName" class="form-control form-control-lg fs-6" placeholder="Nhập họ và tên" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Người liên hệ</label>
+                                        <input type="text" asp-for="ContactName" class="form-control" placeholder="Tên người đại diện" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Số điện thoại</label>
+                                        <input type="tel" asp-for="Phone" class="form-control" placeholder="Ví dụ: 0905123456">
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">Tỉnh / Thành phố</label>
+                                        <input type="text" asp-for="Province" class="form-control" placeholder="Ví dụ: Thừa Thiên Huế">
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">Địa chỉ chi tiết</label>
+                                        <textarea asp-for="Address" class="form-control" rows="3" placeholder="Số nhà, tên đường..."></textarea>
+                                    </div>
+
+                                    <div class="col-12 pt-3">
+                                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">
+                                            <i class="bi bi-save me-2"></i>Lưu thông tin
+                                        </button>
+                                        <a href="/" class="btn btn-outline-secondary px-4 py-2 border-0">Quay lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

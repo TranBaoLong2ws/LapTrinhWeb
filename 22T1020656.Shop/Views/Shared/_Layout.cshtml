@@ -1,0 +1,77 @@
+﻿<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - TechStore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap (chỉ để ở đây) -->
+    @* <link rel="stylesheet" href="~/lib/bootstrap-5.0.2-dist/css/bootstrap.css" /> *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+   
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" />
+
+    <!-- CSS riêng -->
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+
+    <!-- 🔥 HEADER -->
+    @await Html.PartialAsync("_Header")
+
+    <!-- 🔥 CONTENT -->
+    <main class="container my-4">
+        @RenderBody()
+    </main>
+
+    <!-- 🔥 FOOTER -->
+    @await Html.PartialAsync("_Footer")
+
+    <!-- JS -->
+    @* <script src="~/lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function addToCart(productId) {
+            console.log("Đang gọi sản phẩm ID:", productId);
+            $.ajax({
+                url: '@Url.Action("addToCart", "Cart")',
+                type: 'GET',
+                data: { id: productId, quantity: 1 },
+                success: function (response) {
+                    if (response.success) {
+                        if ($("#cartCount").length > 0) {
+                            $("#cartCount").text(response.cartCount);
+                        }
+                        alert("Đã thêm vào giỏ hàng!");
+                    } else {
+                        alert(response.message || "Lỗi khi thêm!");
+                    }
+                },
+                error: function () {
+                    alert("Không thể kết nối đến máy chủ.");
+                }
+            });
+        } // Chỉ có 1 dấu đóng ở đây thôi nhé!
+    </script>
+
+  
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+</body>
+
+
+
+
+</html>

@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>_22T1020656.Admin</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\_MyLayout\favicon.ico" />
+    <None Include="wwwroot\_MyLayout\Layout.html" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\AdminLTEFullLogo.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\AdminLTELogo.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\avatar.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\avatar2.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\avatar3.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\avatar4.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\avatar5.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\boxed-bg.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\boxed-bg.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\american-express.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\cirrus.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\mastercard.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\paypal.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\paypal2.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\credit\visa.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\default-150x150.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\icons.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\photo1.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\photo2.png" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\photo3.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\photo4.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\prod-1.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\prod-2.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\prod-3.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\prod-4.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\prod-5.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user1-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user2-160x160.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user3-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user4-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user5-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user6-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user7-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\assets\img\user8-128x128.jpg" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.css" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.css.map" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.min.css" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.min.css.map" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.rtl.css" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.rtl.css.map" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.rtl.min.css" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\css\adminlte.rtl.min.css.map" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\js\adminlte.js" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\js\adminlte.js.map" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\js\adminlte.min.js" />
+    <None Include="wwwroot\_MyLayout\lib\adminlte\js\adminlte.min.js.map" />
+    <None Include="wwwroot\_MyLayout\lib\bootstrap\bootstrap-icons.min.css" />
+    <None Include="wwwroot\_MyLayout\lib\bootstrap\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\_MyLayout\lib\bootstrap\bootstrap.min.js" />
+    <None Include="wwwroot\_MyLayout\lib\bootstrap\fonts\bootstrap-icons.woff" />
+    <None Include="wwwroot\_MyLayout\lib\bootstrap\fonts\bootstrap-icons.woff2" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\css\font-awesome.css" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\css\font-awesome.min.css" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\fontawesome-webfont.eot" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\_MyLayout\lib\font-awesome\fonts\FontAwesome.otf" />
+    <None Include="wwwroot\_MyLayout\lib\overlay-scrollbars\overlayscrollbars.browser.es6.min.js" />
+    <None Include="wwwroot\_MyLayout\lib\overlay-scrollbars\overlayscrollbars.min.css" />
+    <None Include="wwwroot\_MyLayout\lib\popperjs\popper.min.js" />
+    <None Include="wwwroot\_MyLayout\lib\source-sans-3\index.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\22T1020656.BusinessLayers\SV22T1020656.BusinessLayers.csproj" />
+    <ProjectReference Include="..\22T1020656.DataLayers\SV22T1020656.DataLayers.csproj" />
+    <ProjectReference Include="..\22T1020656.Models\SV22T1020656.Models.csproj" />
+  </ItemGroup>
+
+</Project>

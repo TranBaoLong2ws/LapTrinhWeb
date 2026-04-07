@@ -1,0 +1,46 @@
+﻿@model Shipper
+
+@{
+    ViewData["Title"] = "Thêm Người Giao Hàng";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4 text-center">Thêm người giao hàng</h3>
+
+    <div class="card">
+        <div class="card-body">
+
+            <form method="post" asp-action="SaveData" asp-controller="Shipper">
+                @Html.AntiForgeryToken()
+
+                <!-- Tên người giao hàng -->
+                <div class="mb-3">
+                    <label class="form-label">Tên người giao hàng</label>
+                    <input asp-for="ShipperName" class="form-control" />
+                    <span asp-validation-for="ShipperName" class="text-danger"></span>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <!-- Nút -->
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+                    <button type="submit" class="btn btn-primary">
+                        Thêm người giao hàng
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Banner -->
+<div id="mainBanner" class="carousel slide mb-4" data-bs-ride="carousel">
+
+    <!-- Indicators (chấm tròn) -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="2"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner rounded shadow-sm">
+
+        <div class="carousel-item active">
+            <img src="https://picsum.photos/1200/300?1" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://picsum.photos/1200/300?2" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://picsum.photos/1200/300?3" class="d-block w-100">
+        </div>
+
+    </div>
+
+    <!-- Nút trái/phải -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainBanner" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#mainBanner" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+<h4 class="mb-3">🔥 Sản phẩm nổi bật</h4>
+
+<div class="row">
+    @for (int i = 1; i <= 8; i++)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card product-card">
+
+                <img src="https://picsum.photos/200?random=@i" class="card-img-top">
+
+                <div class="card-body">
+                    <h6 class="fw-bold">Sản phẩm @i</h6>
+
+                    <p class="price">@((i * 100000).ToString("N0")) đ</p>
+
+                    <a href="/Product/Detail/@i" class="btn btn-sm btn-primary w-100">
+                        Xem chi tiết
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,83 @@
+﻿@model registerModel
+
+<section class="min-vh-100 bg-image"
+         style="background-image: url('...'); padding-top: 80px; padding-bottom: 50px;">
+    <div class="mask d-flex align-items-center min-vh-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card shadow" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-4">Create an account</h2>
+
+                            <form asp-action="Register" asp-controller="Account" method="post">
+
+                                <!-- Hiển thị lỗi tổng -->
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <!-- Tên khách hàng -->
+                                <div class="form-outline mb-4">
+                                    <label asp-for="CustomerName" class="form-label">Your Name</label>
+                                    <input asp-for="CustomerName" class="form-control form-control-lg" />
+                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Email" class="form-label">Your Email</label>
+                                    <input asp-for="Email" type="email" class="form-control form-control-lg" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <input asp-for="Password" type="password" class="form-control form-control-lg" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+                                <!-- Nhập lại password -->
+                                <div class="form-outline mb-4">
+                                    <label asp-for="RePassword" class="form-label">Repeat your password</label>
+                                    <input asp-for="RePassword" type="password" class="form-control form-control-lg" />
+                                    <span asp-validation-for="RePassword" class="text-danger"></span>
+                                </div>
+
+                                <!-- Điều khoản -->
+                                <div class="form-check d-flex justify-content-center mb-4">
+                                    <input class="form-check-input me-2" type="checkbox" required />
+                                    <label class="form-check-label">
+                                        I agree all statements in
+                                        <a href="#" class="text-body">
+                                            <u>Terms of service</u>
+                                        </a>
+                                    </label>
+                                </div>
+
+                                <!-- Nút submit -->
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-success btn-block btn-lg">
+                                        Register
+                                    </button>
+                                </div>
+
+                                <p class="text-center text-muted mt-4 mb-0">
+                                    Have already an account?
+                                    <a href="~/Account/Login" class="fw-bold text-body">
+                                        <u>Login here</u>
+                                    </a>
+                                </p>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,152 @@
+﻿@model ProductSearchInput
+@{
+    ViewData["Title"] = "Sản phẩm";
+    Layout = "_Layout";
+}
+
+<div style="margin-top: 140px;">
+<!-- Banner -->
+<div id="mainBanner" class="carousel slide mb-4" data-bs-ride="carousel">
+
+    <!-- Indicators (chấm tròn) -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="2"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner rounded shadow-sm">
+
+        <div class="carousel-item active">
+            <img src="https://picsum.photos/1200/300?1" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://picsum.photos/1200/300?2" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://picsum.photos/1200/300?3" class="d-block w-100">
+        </div>
+
+    </div>
+
+    <!-- Nút trái/phải -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainBanner" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#mainBanner" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+<h4>Danh sách sản phẩm</h4>
+
+<form id="formSearch" method="get" action="~/Product/Search">
+    <div class="row mb-3">     
+
+        <div class="col-md-4">
+            <input type="text" name="SearchValue" class="form-control"
+                   placeholder="Tên sản phẩm..." /> 
+        </div>
+
+        <div class="col-md-3">
+            <select class="form-select" name="CategoryID" id="categorySelect">
+                <option value="0">-- Tất cả loại hàng --</option>
+                @foreach (var c in ViewBag.Categories)
+                {
+                    <option value="@c.CategoryID" selected="@(c.CategoryID == Model.CategoryID)">
+                        @c.CategoryName
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" name="MinPrice" class="form-control"
+                   placeholder="Giá từ" />
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" name="MaxPrice" class="form-control"
+                   placeholder="Đến giá" />
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">
+                Tìm
+            </button>
+        </div>
+
+    </div>
+</form>
+
+<div id="searchResult"></div>
+</div>
+
+@section Scripts {
+    <script>
+        // Định nghĩa hàm tìm kiếm và phân trang
+        function paginationSearch(e, formElement, page) {
+            if (e) e.preventDefault(); // Ngăn trang web load lại khi nhấn nút Submit
+
+            var url = formElement.getAttribute("action");
+            var method = formElement.getAttribute("method");
+            var container = document.getElementById("searchResult");
+
+            // Gom dữ liệu từ Form
+            var formData = new FormData(formElement);
+            formData.append("Page", page); // Thêm trang hiện tại vào dữ liệu gửi đi
+
+            // Chuyển FormData sang Query String (vì Action Search của bạn thường nhận GET hoặc POST đơn giản)
+            var searchParams = new URLSearchParams(formData).toString();
+
+            fetch(`${url}?${searchParams}`, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => {
+                container.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                container.innerHTML = "<p class='text-danger'>Không thể tải danh sách sản phẩm.</p>";
+            });
+        }
+
+        // Tự động chạy khi trang web load xong
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("formSearch");
+
+            // 1. Tự động load sản phẩm lần đầu
+            paginationSearch(null, form, @Model.Page);
+
+            // 2. Bắt sự kiện khi người dùng nhấn nút "Tìm"
+            form.addEventListener("submit", function (e) {
+                paginationSearch(e, this, 1); // Tìm mới thì quay về trang 1
+            });
+        });
+
+                document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("formSearch");
+
+            // Khi trang load, hàm này sẽ lấy CategoryID từ cái <select> đã được chọn sẵn
+            paginationSearch(null, form, @Model.Page);
+
+            form.addEventListener("submit", function (e) {
+                paginationSearch(e, this, 1);
+            });
+
+            // Thêm: Khi thay đổi Category trực tiếp trên trang Index thì tự tìm luôn
+            document.getElementById("categorySelect").addEventListener("change", function() {
+                paginationSearch(null, form, 1);
+            });
+        });
+    </script>
+}
+
+
+

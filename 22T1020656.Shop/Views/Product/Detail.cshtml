@@ -1,0 +1,131 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = Model.ProductName;
+    Layout = "_Layout";
+    var photos = ViewBag.Photos as List<SV22T1020656.Models.Catalog.ProductPhoto>;
+    var attributes = ViewBag.Attributes as List<SV22T1020656.Models.Catalog.ProductAttribute>;
+}
+
+<div class="container" style="padding-top: 130px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="~/Product">Sản phẩm</a></li>
+            <li class="breadcrumb-item active">@Model.ProductName</li>
+        </ol>
+    </nav>
+
+    <div class="row bg-white p-4 rounded shadow-sm">
+        <div class="col-md-5 text-center border-end">
+            <img id="mainImage" src="~/icon/demo.png"
+                 class="img-fluid rounded mb-3" style="max-height: 400px;">
+
+            @if (photos != null && photos.Count > 0)
+            {
+                <div class="d-flex justify-content-center gap-2 overflow-auto">
+                    @foreach (var p in photos)
+                    {
+                        <img src="/images/products/@p.Photo" class="img-thumbnail" style="width: 70px; cursor: pointer;"
+                             onclick="document.getElementById('mainImage').src = this.src">
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="col-md-7 ps-md-5">
+            <h2 class="fw-bold">@Model.ProductName</h2>
+            <p class="text-muted">Đơn vị tính: <strong>@Model.Unit</strong></p>
+
+            <h3 class="text-danger fw-bold my-4">@Model.Price.ToString("N0") đ</h3>
+
+            <p>
+                Tình trạng:
+                @if (Model.IsSelling == true)
+                {
+                    <span class="text-success fw-bold">Còn hàng</span>
+                }
+                else
+                {
+                    <span class="text-danger fw-bold">Ngừng bán</span>
+                }
+            </p>
+
+            <div class="mb-4">
+                <h5>Mô tả sản phẩm:</h5>
+                <p class="text-secondary">@(Model.ProductDescription ?? "Đang cập nhật nội dung...")</p>
+            </div>
+
+            @if (attributes != null && attributes.Count > 0)
+            {
+                <div class="mb-4">
+                    <table class="table table-sm table-striped">
+                        @foreach (var attr in attributes)
+                        {
+                            <tr>
+                                <td width="30%" class="fw-bold">@attr.AttributeName:</td>
+                                <td>@attr.AttributeValue</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="btn btn-sm btn-danger w-50" onclick="addToCart(@Model.ProductID)">
+                    <i class="bi bi-cart"></i> + Giỏ
+                </button>
+            }
+            else
+            {
+                <a href="~/Account/Login" class="btn btn-sm btn-secondary w-50" title="Đăng nhập để mua hàng">
+                    <i class="bi bi-lock"></i> + Giỏ
+                </a>
+            }
+
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.RelatedProducts != null)
+{
+    var related = ViewBag.RelatedProducts.DataItems as List<Product>;
+
+    if (related != null && related.Any())
+    {
+        <div class="mt-5">
+            <h4 class="fw-bold mb-3">Sản phẩm liên quan</h4>
+
+            <div class="row">
+                @foreach (var p in related)
+                {
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img src="~/icon//demo.png"
+                                 class="card-img-top" style="height:200px; object-fit:cover;">
+
+                            <div class="card-body">
+                                <h6 class="card-title text-truncate">@p.ProductName</h6>
+                                <p class="text-danger fw-bold">@p.Price.ToString("N0") đ</p>
+
+                                <a href="@Url.Action("Detail", "Product", new { id = p.ProductID })"
+                                   class="btn btn-sm btn-outline-primary w-100">
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
+
+<script>
+    document.querySelectorAll('.img-thumbnail').forEach(img => {
+        img.addEventListener('mouseover', function () {
+            document.getElementById('mainImage').src = this.src;
+        });
+    });
+</script>
+

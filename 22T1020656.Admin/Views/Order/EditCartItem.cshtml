@@ -1,0 +1,44 @@
+﻿@model OrderDetailViewInfo
+@{
+    Layout = null;
+}
+
+<div class="modal-header bg-primary text-white">
+    <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Cập nhật mặt hàng</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <form id="formEditCart" action="/Order/UpdateCartItem" method="post" onsubmit="updateCartItem(event, this)">
+        <input type="hidden" name="productId" value="@Model.ProductID" />
+        <div class="row">
+            <div class="col-md-7">
+                <div class="mb-3">
+                    <label class="fw-bold">Tên mặt hàng:</label>
+                    <div class="text-primary">@Model.ProductName</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Số lượng</label>
+                    <input type="number" name="quantity" class="form-control"
+                           min="1" value="@Model.Quantity" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Đơn giá</label>
+                    <input type="text" name="salePrice" class="form-control text-end money-input"
+                           value="@Model.SalePrice">
+                </div>
+            </div>
+            <div class="col-md-5 text-center">
+                <img src="~/images/products/@(string.IsNullOrEmpty(Model.Photo) ? "noproduct.png" : Model.Photo)"
+                     class="img-thumbnail img-fluid" style="max-height: 150px;">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" onclick="$('#formEditCart').submit()">
+        <i class="bi bi-save me-1"></i> Lưu thay đổi
+    </button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+</div>

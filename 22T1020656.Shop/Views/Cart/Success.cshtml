@@ -1,0 +1,73 @@
+﻿@model SV22T1020656.Models.Sales.Order
+@using SV22T1020656.Models.Sales
+@{
+    ViewData["Title"] = "Theo dõi đơn hàng";
+    // Chuyển đổi int sang Enum để dễ xử lý logic
+    OrderStatusEnum currentStatus = (OrderStatusEnum)Model.Status;
+}
+
+<div class="container" style="padding-top: 100px;">
+    <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 20px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">Đơn hàng #@Model.OrderID</h4>
+                <p class="text-muted mb-0">Ngày đặt: @Model.OrderTime.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+            <div class="text-end">
+                <span class="badge bg-primary px-3 py-2">@currentStatus.ToString()</span>
+            </div>
+        </div>
+
+        <div class="order-tracking-wrapper py-4">
+            <div class="d-flex justify-content-between position-relative">
+                @* Đường kẻ mờ phía sau *@
+                <div class="position-absolute top-50 start-0 end-0 border-top" style="z-index: 0; transform: translateY(-50%);"></div>
+
+                <div class="text-center position-relative" style="z-index: 1;">
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center mb-2 mx-auto" style="width: 40px; height: 40px;">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="small fw-bold">Đã đặt hàng</div>
+                </div>
+
+                <div class="text-center position-relative" style="z-index: 1;">
+                    <div class="rounded-circle @(Model.Status >= OrderStatusEnum.Accepted ? "bg-success text-white" : "bg-white border text-muted") d-flex align-items-center justify-content-center mb-2 mx-auto" style="width: 40px; height: 40px;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="small @(Model.Status >= OrderStatusEnum.Accepted ? "fw-bold" : "")">Đã xác nhận</div>
+                </div>
+
+                <div class="text-center position-relative" style="z-index: 1;">
+                    <div class="rounded-circle @(Model.Status >= OrderStatusEnum.Accepted ? "bg-success text-white" : "bg-white border text-muted") d-flex align-items-center justify-content-center mb-2 mx-auto" style="width: 40px; height: 40px;">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="small @(Model.Status >= OrderStatusEnum.Accepted ? "fw-bold" : "")">Đang giao hàng</div>
+                </div>
+
+                <div class="text-center position-relative" style="z-index: 1;">
+                    <div class="rounded-circle @(Model.Status == OrderStatusEnum.Accepted ? "bg-success text-white" : "bg-white border text-muted") d-flex align-items-center justify-content-center mb-2 mx-auto" style="width: 40px; height: 40px;">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="small @(Model.Status == OrderStatusEnum.Accepted ? "fw-bold" : "")">Thành công</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm p-4 h-100" style="border-radius: 15px;">
+                <h6 class="fw-bold mb-3">Địa chỉ nhận hàng</h6>
+                <p class="mb-1 fw-bold">Khách hàng ID: @Model.CustomerID</p>
+                <p class="mb-1 text-muted">@Model.DeliveryAddress</p>
+                <p class="mb-0 text-muted">@Model.DeliveryProvince</p>
+            </div>
+        </div>
+        @* <div class="col-md-6">
+            <div class="card border-0 shadow-sm p-4 h-100" style="border-radius: 15px;">
+                <h6 class="fw-bold mb-3">Ghi chú từ hệ thống</h6>
+                <p class="small text-muted italic">@(string.IsNullOrEmpty(Model.Note) ? "Không có ghi chú." : Model.Note)</p>
+            </div>
+        </div> *@
+    </div>
+</div>
